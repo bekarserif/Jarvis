@@ -1,8 +1,14 @@
+const fs = require('fs');
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-const choochoo = require('./commands/choochoo');
-const commands = {
-    choochoo,
-};
+const commands = {};
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+    const fileName = file.replace('.js','');
+	commands[fileName] = command;
+}
+
+
 
 module.exports = async function gotMessage(msg)
 {
